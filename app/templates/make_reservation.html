@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}Make a Reservation{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h2 class="text-center mb-4">Class Schedule</h2>
+        {% for cls in classes %}
+            <div class="mb-3">
+                <h3>{{ cls.day }}: {{ cls.name }}</h3>
+                <p>Time: {{ cls.time_display }}</p>
+                <p>
+                    {% if cls.is_full %}
+                        <span class="badge bg-danger">Full</span>
+                    {% else %}
+                        <span class="badge bg-success">{{ cls.spots_remaining }} spots remaining</span>
+                    {% endif %}
+                </p>
+            </div>
+        {% endfor %}
+
+        <h2 class="text-center mt-5 mb-4">Make a Reservation</h2>
+        <form action="{{ url_for('reservations.make_reservation') }}" method="post">
+            <div class="mb-3">
+                <label for="classSelect">Select Class</label>
+                <select class="form-control" id="classSelect" name="class_id">
+                    {% for cls in classes %}
+                        {% if not cls.is_full %}
+                            <option value="{{ cls.id }}">{{ cls.name }} ({{ cls.day }} at {{ cls.time_display }}) - {{ cls.spots_remaining }} spots</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Reservation</button>
+        </form>
+    </div>
+{% endblock %}

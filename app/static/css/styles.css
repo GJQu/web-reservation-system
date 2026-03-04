@@ -1,0 +1,30 @@
+/* Size for brand */
+nav .navbar-brand
+{
+    font-size: xx-large;
+}
+
+/* Colors for brand */
+nav .navbar-brand .offwhite
+{
+    color: #dcdcdc;
+}
+
+body {
+    background-color: rgb(24, 125, 186);
+}
+
+h1 {
+    color: rgb(220, 220, 220);
+}
+
+p {
+    color: rgb(220, 220, 220);
+}
+
+h2 {
+    color: rgb(220, 220, 220);
+}
+h3 {
+    color: rgb(220, 220, 220);
+}
