@@ -7,29 +7,34 @@ from pathlib import Path
 # Add project root to path so we can import app
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from app import create_app
-from app.extensions import db
-from app.models import StudioClass, User
+from app import create_app  # noqa: E402
+from app.extensions import db  # noqa: E402
+from app.models import StudioClass, User  # noqa: E402
+
+
+def _class(name, day, start, end, capacity=10):
+    return {
+        "name": name,
+        "day": day,
+        "start_time": time(*start),
+        "end_time": time(*end),
+        "capacity": capacity,
+    }
 
 
 CLASSES = [
-    # Tuesday
-    {"name": "Kids Art Class", "day": "Tuesday", "start_time": time(15, 0), "end_time": time(17, 0), "capacity": 10},
-    {"name": "Adult Art Class", "day": "Tuesday", "start_time": time(17, 0), "end_time": time(18, 0), "capacity": 10},
-    # Wednesday
-    {"name": "Kids Art Class", "day": "Wednesday", "start_time": time(15, 0), "end_time": time(17, 0), "capacity": 10},
-    {"name": "Adult Art Class", "day": "Wednesday", "start_time": time(17, 0), "end_time": time(18, 0), "capacity": 10},
-    # Thursday
-    {"name": "Kids Art Class", "day": "Thursday", "start_time": time(15, 0), "end_time": time(17, 0), "capacity": 10},
-    {"name": "Adult Art Class", "day": "Thursday", "start_time": time(17, 0), "end_time": time(18, 0), "capacity": 10},
-    # Friday
-    {"name": "Kids Art Class", "day": "Friday", "start_time": time(15, 0), "end_time": time(17, 0), "capacity": 10},
-    {"name": "Adult Art Class", "day": "Friday", "start_time": time(17, 0), "end_time": time(18, 0), "capacity": 10},
-    # Saturday
-    {"name": "Kids Art Class AM", "day": "Saturday", "start_time": time(9, 0), "end_time": time(11, 0), "capacity": 12},
-    {"name": "Kids Art Class PM", "day": "Saturday", "start_time": time(13, 0), "end_time": time(15, 0), "capacity": 12},
-    {"name": "Adult Art Class AM", "day": "Saturday", "start_time": time(11, 0), "end_time": time(13, 0), "capacity": 10},
-    {"name": "Adult Art Class PM", "day": "Saturday", "start_time": time(15, 0), "end_time": time(17, 0), "capacity": 10},
+    _class("Kids Art Class", "Tuesday", (15, 0), (17, 0)),
+    _class("Adult Art Class", "Tuesday", (17, 0), (18, 0)),
+    _class("Kids Art Class", "Wednesday", (15, 0), (17, 0)),
+    _class("Adult Art Class", "Wednesday", (17, 0), (18, 0)),
+    _class("Kids Art Class", "Thursday", (15, 0), (17, 0)),
+    _class("Adult Art Class", "Thursday", (17, 0), (18, 0)),
+    _class("Kids Art Class", "Friday", (15, 0), (17, 0)),
+    _class("Adult Art Class", "Friday", (17, 0), (18, 0)),
+    _class("Kids Art Class AM", "Saturday", (9, 0), (11, 0), 12),
+    _class("Kids Art Class PM", "Saturday", (13, 0), (15, 0), 12),
+    _class("Adult Art Class AM", "Saturday", (11, 0), (13, 0)),
+    _class("Adult Art Class PM", "Saturday", (15, 0), (17, 0)),
 ]
 
 
@@ -39,7 +44,6 @@ def seed():
     with app.app_context():
         db.create_all()
 
-        # Seed classes if table is empty
         if StudioClass.query.count() == 0:
             for cls_data in CLASSES:
                 db.session.add(StudioClass(**cls_data))
@@ -48,7 +52,6 @@ def seed():
         else:
             print("Classes already seeded, skipping.")
 
-        # Create a test user if none exist
         if User.query.count() == 0:
             user = User(
                 username="testuser",

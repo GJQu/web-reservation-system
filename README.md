@@ -1,88 +1,112 @@
-# Web Reservation System
-### Video Demo:  <https://youtu.be/FsdNpunNayk>
-## Description:
+# Art Studio Reservation System
 
-### Overview
-This project presents a web-based reservation system, integrated into a concept artist's website. It's designed to provide an intuitive and efficient way for users to view and book art classes. The website also showcases the artist's portfolio and provides information about the studio, making it a comprehensive platform for both art enthusiasts and potential students.
+A full-stack reservation system for an art studio, built with Flask. Demonstrates backend engineering patterns including RESTful API design, ORM-based data modeling, database migrations, comprehensive testing, and containerized deployment.
 
-The concept artist's credit goes to Peiyao Wang, and I appreciate her for letting me use her art pieces as my display for the gallery page.
+## Tech Stack
 
-## Features
-### User Authentication
-**Register:** New users can sign up by providing their username, password, and personal details. The system ensures that usernames are unique and passwords are securely stored.
-**Login/Logout:** Users can log in to access personalized features like making and managing reservations. A logout option is also provided for security.
+| Layer | Technology |
+|-------|-----------|
+| **Backend** | Flask, SQLAlchemy, Marshmallow |
+| **Database** | SQLite (swappable to PostgreSQL via SQLAlchemy) |
+| **Auth** | Flask-Login with Werkzeug password hashing |
+| **Testing** | pytest with in-memory SQLite |
+| **Infrastructure** | Docker, GitHub Actions CI/CD |
+| **Frontend** | Jinja2 templates, Bootstrap 5 |
 
-### Class Schedule Viewing
-**Dynamic Schedule Display:** The website displays a schedule of available art classes, categorized by days and types (adults or kids classes). This schedule is dynamically generated from the SQLite database.
+## Architecture
 
-### Reservation Management System
-**Making Reservations:** Logged-in users can make reservations for classes. The system captures essential details like class choice, user's name, and contact information.
-**Managing Reservations:** Users can view their current reservations and have the option to cancel them if needed.
+```
+app/
+  __init__.py          # Application factory (create_app)
+  config.py            # Environment-based configuration
+  extensions.py        # SQLAlchemy, Migrate, LoginManager
+  models.py            # User, StudioClass, Reservation
+  auth/                # Authentication blueprint
+  main/                # Public pages blueprint
+  reservations/        # Reservation management blueprint
+  api/                 # REST API blueprint (/api/v1/)
+    schemas.py         # Marshmallow serialization
+    errors.py          # Structured error handling
+  templates/
+  static/
+tests/                 # 35 tests (models, auth, API, integration)
+migrations/            # Alembic schema versioning
+scripts/seed_data.py   # Database seeder
+```
 
-### Artist's Portfolio
-**Gallery:** A dedicated section showcases the artist's work, giving visitors a glimpse into the style and quality of art they can expect or learn.
+**Key patterns:** Application factory for test isolation, Blueprints for separation of concerns, soft deletes with audit timestamps, capacity enforcement with computed properties.
 
-### Additional Information
-**About Page:** This page provides background information about the artist and the studio, enriching the visitor's understanding and connection with the artist.
-**Contact Page:** Users can find contact details and additional information on how to reach out to the studio, along with its business hours from Monday to Sunday.
+## Quick Start
 
-## Technical Details
-### Technology Stack
-**Frontend:** HTML, CSS (Bootstrap for styling), Jinja2 for templating.
-**Backend:** Python (Flask framework), SQLite for the database.
-**Security:** User authentication, session management, and password hashing.
+### Local Development
 
-### Database Schema
-**Users:** Stores user credentials and personal information.
-**Classes:** Contains details of the art classes, including name, schedule, and type.
-**Reservations:** Records the reservations made by users, linking to the users and classes tables.
-**Foreign Keys:** Those are made to enable cross-referencing by the functions in app.py. e.g. displays current reservations in the management system based on user login session.
+```bash
+make setup                     # Create venv, install deps
+FLASK_APP=app flask db upgrade # Apply migrations
+python scripts/seed_data.py    # Seed classes + test user
+make run                       # Start dev server on :5000
+```
 
-### Directory Structure
-**/templates:** Contains HTML templates for different pages of the website.
-**/static:** Stores static files like CSS, JavaScript, and images.
-**app.py:** The main Flask application file.
-**helpers.py:** Includes utility functions used across the application.
-**reservation.db:** The SQLite database file.
+### Docker
 
-## Setup and Installation
-### Requirements
-- Python 3
-- Flask
-- SQLite
-- Jinja
+```bash
+docker compose up --build      # Build + run (auto-migrates and seeds)
+```
 
-### Running the Application
+### Testing
 
-1. Clone the repository to your local machine.
-2. Navigate to the project directory.
-3. Install dependencies: pip install -r requirements.txt.
-4. Run the Flask application: flask run.
-5. Access the website via localhost.
+```bash
+make test                      # Run 35 tests
+make lint                      # Ruff lint + format check
+```
 
-*Sorry, there's no .exe available for this one.*
+## REST API
 
-## Usage
-### User Registration and Login
-- Access the registration form via the 'Register' link on the homepage.
-- Please do not use your normal passwords for the site as we do not regularly maintain it nor do we actively do penetration testing.
-- After registration, log in using the 'Login' link.
+All endpoints under `/api/v1/`. Responses use `{"data": ..., "error": ...}` format.
 
-### Making a Reservation
-- Logged-in users can view the class schedule under the 'Make a Reservation' section.
-- Select a desired class time and fill in the reservation details.
-- Submit the form to confirm the reservation, you will see the "success" box flash at the top of the webpage.
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/api/v1/classes` | No | List all classes with availability |
+| GET | `/api/v1/classes/:id` | No | Get single class detail |
+| GET | `/api/v1/reservations` | Yes | List current user's reservations |
+| POST | `/api/v1/reservations` | Yes | Create reservation `{"class_id": 1}` |
+| DELETE | `/api/v1/reservations/:id` | Yes | Cancel reservation (soft delete) |
+| GET | `/api/v1/users/me` | Yes | Current user profile |
 
-### Managing Reservations
-- View and manage your reservations under the 'Manage Reservation' section.
-- Use the 'Cancel' option to cancel any existing reservation.
-- Note that the system does not account for the capacity of the classes at the moment, but can be easily added in the backend once operational.
+**Error codes:** `NOT_FOUND`, `CLASS_FULL`, `DUPLICATE_RESERVATION`, `FORBIDDEN`, `VALIDATION_ERROR`
 
-## Support
-There's no current support system setup, use at your own risk and please avoid using passwords that you share with other accounts.
+## Data Model
 
-## Future and Beyond
-Similar systems can be easily implemented to your own website and I am currently working on a shop page with integrated payment system, so it can be a full-feature webapp for my personal website. The stylesheet will be a work in progress as well, as I will update the aesthetics of the webpage using custom typeface.
+```
+users         classes            reservations
+------        --------           -------------
+id (PK)       id (PK)            id (PK)
+username      name               user_id (FK -> users)
+email         day                class_id (FK -> classes)
+password_hash start_time         status (confirmed/cancelled)
+first_name    end_time           created_at
+last_name     capacity           cancelled_at
+created_at    created_at
+updated_at
+```
+
+**Design decisions:**
+- Normalized schema: reservation references user via FK (no denormalized name/email copies)
+- Soft deletes: cancelled reservations keep history via `status` + `cancelled_at`
+- Capacity enforcement: `StudioClass.spots_remaining` computed from active reservation count
+- Unique constraint on `(user_id, class_id)` prevents double-booking
+
+## CI/CD
+
+GitHub Actions pipeline runs on push/PR to main:
+1. **Lint** - ruff check + format
+2. **Test** - pytest (35 tests)
+3. **Build** - Docker image build
+
+## Credits
+
+Art portfolio credit: Peiyao Wang
 
 ## License
-This project is licensed under the MIT License. Please see the license file for more detail.
+
+MIT License - see [LICENSE](LICENSE) for details.

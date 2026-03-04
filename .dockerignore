@@ -1,0 +1,11 @@
+.git/
+__pycache__/
+*.pyc
+*.db
+.env
+venv/
+.venv/
+flask_session/
+.pytest_cache/
+.claude/
+.DS_Store

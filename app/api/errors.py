@@ -39,20 +39,24 @@ class ForbiddenError(APIError):
 def register_error_handlers(bp):
     @bp.errorhandler(APIError)
     def handle_api_error(error):
-        return jsonify({
-            "data": None,
-            "error": {
-                "code": error.code,
-                "message": error.message,
-            },
-        }), error.status_code
+        return jsonify(
+            {
+                "data": None,
+                "error": {
+                    "code": error.code,
+                    "message": error.message,
+                },
+            }
+        ), error.status_code
 
     @bp.errorhandler(401)
     def handle_unauthorized(error):
-        return jsonify({
-            "data": None,
-            "error": {
-                "code": "UNAUTHORIZED",
-                "message": "Authentication required",
-            },
-        }), 401
+        return jsonify(
+            {
+                "data": None,
+                "error": {
+                    "code": "UNAUTHORIZED",
+                    "message": "Authentication required",
+                },
+            }
+        ), 401

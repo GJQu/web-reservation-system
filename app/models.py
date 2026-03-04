@@ -1,7 +1,7 @@
-from datetime import datetime, time, timezone
+from datetime import datetime, timezone
 
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.extensions import db, login_manager
 
@@ -15,9 +15,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(256), nullable=False)
     first_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80), nullable=False)
-    created_at = db.Column(
-        db.DateTime, default=lambda: datetime.now(timezone.utc)
-    )
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = db.Column(
         db.DateTime,
         default=lambda: datetime.now(timezone.utc),
@@ -47,9 +45,7 @@ class StudioClass(db.Model):
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
     capacity = db.Column(db.Integer, nullable=False, default=10)
-    created_at = db.Column(
-        db.DateTime, default=lambda: datetime.now(timezone.utc)
-    )
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     reservations = db.relationship(
         "Reservation", back_populates="studio_class", lazy="dynamic"
@@ -83,14 +79,10 @@ class Reservation(db.Model):
         db.Integer, db.ForeignKey("classes.id"), nullable=False, index=True
     )
     status = db.Column(db.String(20), nullable=False, default="confirmed")
-    created_at = db.Column(
-        db.DateTime, default=lambda: datetime.now(timezone.utc)
-    )
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     cancelled_at = db.Column(db.DateTime, nullable=True)
 
     user = db.relationship("User", back_populates="reservations")
     studio_class = db.relationship("StudioClass", back_populates="reservations")
 
-    __table_args__ = (
-        db.UniqueConstraint("user_id", "class_id", name="uq_user_class"),
-    )
+    __table_args__ = (db.UniqueConstraint("user_id", "class_id", name="uq_user_class"),)

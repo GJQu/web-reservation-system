@@ -59,10 +59,12 @@ def list_reservations():
 def create_reservation():
     errors = reservation_create_schema.validate(request.get_json() or {})
     if errors:
-        return jsonify({
-            "data": None,
-            "error": {"code": "VALIDATION_ERROR", "message": str(errors)},
-        }), 400
+        return jsonify(
+            {
+                "data": None,
+                "error": {"code": "VALIDATION_ERROR", "message": str(errors)},
+            }
+        ), 400
 
     data = reservation_create_schema.load(request.get_json())
     class_id = data["class_id"]

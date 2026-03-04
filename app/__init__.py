@@ -1,7 +1,7 @@
 from flask import Flask
 
 from app.config import config_by_name
-from app.extensions import db, migrate, login_manager
+from app.extensions import db, login_manager, migrate
 
 
 def create_app(config_name="development"):
@@ -16,15 +16,19 @@ def create_app(config_name="development"):
 
     # Register blueprints
     from app.main import bp as main_bp
+
     app.register_blueprint(main_bp)
 
     from app.auth import bp as auth_bp
+
     app.register_blueprint(auth_bp)
 
     from app.reservations import bp as reservations_bp
+
     app.register_blueprint(reservations_bp)
 
     from app.api import bp as api_bp
+
     app.register_blueprint(api_bp, url_prefix="/api/v1")
 
     # Ensure responses aren't cached

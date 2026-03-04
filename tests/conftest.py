@@ -1,5 +1,6 @@
-import pytest
 from datetime import time
+
+import pytest
 
 from app import create_app
 from app.extensions import db as _db
@@ -71,8 +72,11 @@ def full_class(db):
 @pytest.fixture
 def auth_client(client, sample_user):
     """A test client that is already logged in."""
-    client.post("/login", data={
-        "username": "testuser",
-        "password": "testpassword",
-    })
+    client.post(
+        "/login",
+        data={
+            "username": "testuser",
+            "password": "testpassword",
+        },
+    )
     return client

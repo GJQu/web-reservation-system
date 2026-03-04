@@ -1,0 +1,19 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app
+      - FLASK_ENV=development
+      - SECRET_KEY=${SECRET_KEY:-dev-secret-key}
+      - DATABASE_URL=sqlite:///data/app.db
+    volumes:
+      - app-data:/app/data
+    command: >
+      sh -c "flask db upgrade &&
+             python scripts/seed_data.py &&
+             gunicorn --bind 0.0.0.0:5000 'app:create_app()'"
+
+volumes:
+  app-data:
