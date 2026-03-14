@@ -3,25 +3,40 @@
 {% block title %}Register{% endblock %}
 
 {% block main %}
-    <form action="{{ url_for('auth.register') }}" method="post">
-        <div class="mb-3">
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-sm p-4">
+                <h2 class="h4 mb-4 text-center">Create an account</h2>
+                <form action="{{ url_for('auth.register') }}" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="reg-first_name" class="form-label">First name</label>
+                            <input id="reg-first_name" autocomplete="given-name" autofocus class="form-control" name="first_name" placeholder="First name" type="text" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="reg-last_name" class="form-label">Last name</label>
+                            <input id="reg-last_name" autocomplete="family-name" class="form-control" name="last_name" placeholder="Last name" type="text" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="reg-username" class="form-label">Username</label>
+                        <input id="reg-username" autocomplete="username" class="form-control" name="username" placeholder="Username" type="text" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reg-email" class="form-label">Email address</label>
+                        <input id="reg-email" autocomplete="email" class="form-control" name="email" placeholder="Email address" type="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reg-password" class="form-label">Password</label>
+                        <input id="reg-password" autocomplete="new-password" class="form-control" name="password" placeholder="Password" type="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reg-confirmation" class="form-label">Confirm password</label>
+                        <input id="reg-confirmation" autocomplete="new-password" class="form-control" name="confirmation" placeholder="Confirm password" type="password" required>
+                    </div>
+                    <button class="btn btn-primary w-100" type="submit">Register</button>
+                </form>
+            </div>
         </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="first_name" placeholder="First Name" type="text" required>
-        </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="last_name" placeholder="Last Name" type="text" required>
-        </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="email" placeholder="Email Address" type="email" required>
-        </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
-        </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="confirmation" placeholder="Confirm Password" type="password">
-        </div>
-        <button class="btn btn-primary" type="submit">Register</button>
-    </form>
+    </div>
 {% endblock %}

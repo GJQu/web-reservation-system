@@ -54,7 +54,8 @@ def make_reservation():
 def manage_reservation():
     reservations = (
         Reservation.query.filter_by(user_id=current_user.id, status="confirmed")
-        .join(StudioClass)
+        .options(db.joinedload(Reservation.studio_class))
+        .order_by(Reservation.created_at.desc())
         .all()
     )
     return render_template("manage_reservation.html", reservations=reservations)

@@ -3,13 +3,22 @@
 {% block title %}Log In{% endblock %}
 
 {% block main %}
-    <form action="{{ url_for('auth.login') }}" method="post">
-        <div class="mb-3">
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-5">
+            <div class="card shadow-sm p-4">
+                <h2 class="h4 mb-4 text-center">Log in to your account</h2>
+                <form action="{{ url_for('auth.login') }}" method="post">
+                    <div class="mb-3">
+                        <label for="login-username" class="form-label">Username</label>
+                        <input id="login-username" autocomplete="username" autofocus class="form-control" name="username" placeholder="Username" type="text" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input id="login-password" autocomplete="current-password" class="form-control" name="password" placeholder="Password" type="password" required>
+                    </div>
+                    <button class="btn btn-primary w-100" type="submit">Log In</button>
+                </form>
+            </div>
         </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
-        </div>
-        <button class="btn btn-primary" type="submit">Log In</button>
-    </form>
+    </div>
 {% endblock %}

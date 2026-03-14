@@ -1,30 +1,66 @@
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
+.Python
 *.egg-info/
+*.egg
 dist/
 build/
-*.egg
+eggs/
+*.manifest
+*.spec
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
 
 # Database
 *.db
+*.sqlite3
+*.sqlite
 
-# Environment
+# Environment and secrets
 .env
-venv/
-.venv/
+.env.local
+.env.*.local
+*.pem
 
 # Flask
 flask_session/
 instance/
+.webassets-cache
 
-# IDE
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+
+# IDE / editors
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
 # OS
 .DS_Store
+.DS_Store?
 Thumbs.db
+ehthumbs.db
 
-# Claude
+# Logs and local data
+*.log
+logs/
+data/
+
+# Optional
 .claude/
+*.bak

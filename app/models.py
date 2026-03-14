@@ -62,10 +62,12 @@ class StudioClass(db.Model):
 
     @property
     def time_display(self):
-        return (
-            f"{self.start_time.strftime('%-I:%M %p')} - "
-            f"{self.end_time.strftime('%-I:%M %p')}"
-        )
+        # Use %I (zero-padded) then strip leading zero for portability (%-I is not supported on Windows)
+        def fmt(t):
+            s = t.strftime("%I:%M %p")
+            return s.lstrip("0") if s[0] == "0" else s
+
+        return f"{fmt(self.start_time)} - {fmt(self.end_time)}"
 
 
 class Reservation(db.Model):

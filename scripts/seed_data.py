@@ -39,11 +39,10 @@ CLASSES = [
 
 
 def seed():
+    """Seed classes and a test user. Run `flask db upgrade` first to create tables."""
     app = create_app("development")
 
     with app.app_context():
-        db.create_all()
-
         if StudioClass.query.count() == 0:
             for cls_data in CLASSES:
                 db.session.add(StudioClass(**cls_data))

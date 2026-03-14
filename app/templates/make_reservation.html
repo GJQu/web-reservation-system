@@ -3,35 +3,42 @@
 {% block title %}Make a Reservation{% endblock %}
 
 {% block main %}
-    <div class="container">
-        <h2 class="text-center mb-4">Class Schedule</h2>
+    <h2 class="text-center mb-4">Class Schedule &amp; Reservation</h2>
+
+    <div class="row g-3 mb-4">
         {% for cls in classes %}
-            <div class="mb-3">
-                <h3>{{ cls.day }}: {{ cls.name }}</h3>
-                <p>Time: {{ cls.time_display }}</p>
-                <p>
-                    {% if cls.is_full %}
-                        <span class="badge bg-danger">Full</span>
-                    {% else %}
-                        <span class="badge bg-success">{{ cls.spots_remaining }} spots remaining</span>
-                    {% endif %}
-                </p>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h3 class="h6 card-title text-start">{{ cls.name }}</h3>
+                        <p class="card-text small text-muted mb-1">{{ cls.day }} · {{ cls.time_display }}</p>
+                        {% if cls.is_full %}
+                            <span class="badge bg-danger">Full</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ cls.spots_remaining }} spots left</span>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         {% endfor %}
+    </div>
 
-        <h2 class="text-center mt-5 mb-4">Make a Reservation</h2>
+    <div class="card shadow-sm p-4">
+        <h3 class="h5 mb-3">Book a class</h3>
         <form action="{{ url_for('reservations.make_reservation') }}" method="post">
             <div class="mb-3">
-                <label for="classSelect">Select Class</label>
-                <select class="form-control" id="classSelect" name="class_id">
+                <label for="classSelect" class="form-label">Select a class</label>
+                <select class="form-select" id="classSelect" name="class_id" required aria-describedby="classSelectHelp">
+                    <option value="">Choose a class…</option>
                     {% for cls in classes %}
                         {% if not cls.is_full %}
-                            <option value="{{ cls.id }}">{{ cls.name }} ({{ cls.day }} at {{ cls.time_display }}) - {{ cls.spots_remaining }} spots</option>
+                            <option value="{{ cls.id }}">{{ cls.name }} — {{ cls.day }} at {{ cls.time_display }} ({{ cls.spots_remaining }} left)</option>
                         {% endif %}
                     {% endfor %}
                 </select>
+                <div id="classSelectHelp" class="form-text text-muted">Only classes with availability are listed.</div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit Reservation</button>
+            <button type="submit" class="btn btn-primary">Submit reservation</button>
         </form>
     </div>
 {% endblock %}

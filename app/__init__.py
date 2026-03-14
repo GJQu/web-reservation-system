@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Flask
 
 from app.config import config_by_name
@@ -7,6 +9,10 @@ from app.extensions import db, login_manager, migrate
 def create_app(config_name="development"):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
+
+    @app.context_processor
+    def inject_current_year():
+        return {"current_year": datetime.now().year}
 
     # Initialize extensions
     db.init_app(app)

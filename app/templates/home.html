@@ -3,31 +3,29 @@
 {% block title %}Home{% endblock %}
 
 {% block main %}
-    <div id="studioCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div id="studioCarousel" class="carousel slide" data-bs-ride="carousel" aria-label="Studio gallery">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="{{ url_for('static', filename='images/homepage/WechatIMG24762.jpg') }}" class="d-block w-100" alt="First slide">
+                <img src="{{ url_for('static', filename='images/homepage/WechatIMG24762.jpg') }}" class="d-block w-100" alt="Art studio space">
             </div>
             <div class="carousel-item">
-                <img src="{{ url_for('static', filename='images/homepage/WechatIMG24763.jpg') }}" class="d-block w-100" alt="Second slide">
+                <img src="{{ url_for('static', filename='images/homepage/WechatIMG24763.jpg') }}" class="d-block w-100" alt="Art class in session">
             </div>
             <div class="carousel-item">
-                <img src="{{ url_for('static', filename='images/homepage/WechatIMG24764.jpg') }}" class="d-block w-100" alt="Third slide">
+                <img src="{{ url_for('static', filename='images/homepage/WechatIMG24764.jpg') }}" class="d-block w-100" alt="Student artwork">
             </div>
             <div class="carousel-item">
-                <img src="{{ url_for('static', filename='images/homepage/WechatIMG24765.jpg') }}" class="d-block w-100" alt="Fourth slide">
+                <img src="{{ url_for('static', filename='images/homepage/WechatIMG24765.jpg') }}" class="d-block w-100" alt="Studio workspace">
             </div>
             <div class="carousel-item">
-                <img src="{{ url_for('static', filename='images/homepage/WechatIMG24766.jpg') }}" class="d-block w-100" alt="Fifth slide">
+                <img src="{{ url_for('static', filename='images/homepage/WechatIMG24766.jpg') }}" class="d-block w-100" alt="Gallery view">
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#studioCarousel" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#studioCarousel" data-bs-slide="prev" aria-label="Previous slide">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#studioCarousel" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#studioCarousel" data-bs-slide="next" aria-label="Next slide">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
         </button>
     </div>
 {% endblock %}
