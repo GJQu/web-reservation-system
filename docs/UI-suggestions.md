@@ -29,7 +29,7 @@ This doc lists optional enhancements beyond the current implementation. Use as a
 
 ## Consistency
 
-- **Page titles**: All pages now use “Page title · WPY Studio” in the layout.
+- **Page titles**: All pages now use “Page title · site_name (e.g. Atelier)” in the layout.
 - **Buttons**: Use `btn-primary` for primary actions and `btn-outline-*` for secondary (e.g. Cancel) consistently across the app.
 - **Cards**: Use the same card style (e.g. `.card` with `.card-body`) for all content blocks so the UI feels cohesive.
 

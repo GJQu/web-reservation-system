@@ -1,19 +1,20 @@
-/* ===== Design tokens ===== */
+/* ===== Minimal theme – light background, no blue ===== */
 :root {
-  --studio-primary: #187dba;
-  --studio-primary-dark: #12608a;
-  --studio-bg: #0f4d73;
-  --studio-surface: rgba(255, 255, 255, 0.06);
-  --studio-text: #e8e8e8;
-  --studio-text-muted: #b0b0b0;
-  --studio-border: rgba(255, 255, 255, 0.12);
-  --studio-focus-ring: rgba(255, 255, 255, 0.5);
-  --navbar-height: 56px;
+  --studio-bg: #f8f8f8;
+  --studio-surface: #ffffff;
+  --studio-text: #1a1a1a;
+  --studio-text-muted: #6b6b6b;
+  --studio-border: #e0e0e0;
+  --studio-primary: #2d2d2d;
+  --studio-primary-hover: #1a1a1a;
+  --studio-focus-ring: #2d2d2d;
+  --navbar-bg: #ffffff;
+  --navbar-border: #e8e8e8;
 }
 
 /* ===== Base ===== */
 body {
-  background: linear-gradient(180deg, var(--studio-bg) 0%, var(--studio-primary) 100%);
+  background: var(--studio-bg);
   color: var(--studio-text);
   min-height: 100vh;
   display: flex;
@@ -28,7 +29,7 @@ body {
   z-index: 9999;
   padding: 0.5rem 1rem;
   background: var(--studio-text);
-  color: var(--studio-primary-dark);
+  color: var(--studio-bg);
   border-radius: 0.25rem;
   font-weight: 600;
   transition: top 0.2s;
@@ -41,34 +42,40 @@ body {
 
 /* ===== Navbar ===== */
 nav.navbar {
-  background-color: var(--studio-primary-dark) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: var(--navbar-bg) !important;
+  border-bottom: 1px solid var(--navbar-border);
+  box-shadow: none;
 }
 
 nav .navbar-brand {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.35rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
-}
-
-nav .navbar-brand .offwhite {
-  color: var(--studio-text);
+  color: var(--studio-text) !important;
 }
 
 nav .nav-link {
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: var(--studio-text-muted) !important;
   font-weight: 500;
   border-radius: 0.25rem;
   padding: 0.4rem 0.75rem !important;
 }
 nav .nav-link:hover,
 nav .nav-link:focus-visible {
-  color: #fff !important;
-  background: rgba(255, 255, 255, 0.15);
+  color: var(--studio-text) !important;
+  background: var(--studio-bg);
 }
 nav .nav-link:focus-visible {
   outline: 2px solid var(--studio-focus-ring);
   outline-offset: 2px;
+}
+
+nav .navbar-toggler {
+  border-color: var(--studio-border);
+  color: var(--studio-text);
+}
+nav .navbar-toggler-icon {
+  filter: invert(0);
 }
 
 /* ===== Main content ===== */
@@ -90,13 +97,14 @@ p, .text-muted {
 .form-control,
 .form-select {
   max-width: 320px;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--studio-surface);
   border: 1px solid var(--studio-border);
+  color: var(--studio-text);
 }
 .form-control:focus,
 .form-select:focus {
-  border-color: var(--studio-primary);
-  box-shadow: 0 0 0 0.2rem rgba(24, 125, 186, 0.35);
+  border-color: var(--studio-text);
+  box-shadow: 0 0 0 0.2rem rgba(45, 45, 45, 0.15);
 }
 
 label {
@@ -108,14 +116,20 @@ label {
 .btn-primary {
   background-color: var(--studio-primary);
   border-color: var(--studio-primary);
+  color: #fff;
 }
 .btn-primary:hover {
-  background-color: var(--studio-primary-dark);
-  border-color: var(--studio-primary-dark);
+  background-color: var(--studio-primary-hover);
+  border-color: var(--studio-primary-hover);
+  color: #fff;
 }
 .btn:focus-visible {
   outline: 2px solid var(--studio-focus-ring);
   outline-offset: 2px;
+}
+
+.btn-outline-danger:hover {
+  color: #fff;
 }
 
 /* ===== Cards ===== */
@@ -126,18 +140,26 @@ label {
   color: var(--studio-text);
 }
 .card-header {
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--studio-bg);
   border-bottom: 1px solid var(--studio-border);
   font-weight: 600;
+  color: var(--studio-text);
 }
 
 /* ===== Alerts / flash messages ===== */
 .alert {
   border-radius: 0.375rem;
-  border: none;
+  border: 1px solid var(--studio-border);
 }
-.alert-primary { background: rgba(24, 125, 186, 0.25); color: var(--studio-text); }
-.alert-danger { background: rgba(220, 53, 69, 0.25); color: #f8d7da; }
+.alert-primary {
+  background: var(--studio-bg);
+  color: var(--studio-text);
+}
+.alert-danger {
+  background: #fdf2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
 
 /* ===== Footer ===== */
 footer {
@@ -146,6 +168,7 @@ footer {
   color: var(--studio-text-muted);
   font-size: 0.9rem;
   border-top: 1px solid var(--studio-border);
+  background: var(--studio-surface);
 }
 
 /* ===== Utility ===== */
@@ -159,5 +182,6 @@ footer {
 }
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  filter: drop-shadow(0 0 4px rgba(0,0,0,0.5));
+  filter: invert(1);
+  opacity: 0.8;
 }

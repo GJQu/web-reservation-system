@@ -11,8 +11,11 @@ def create_app(config_name="development"):
     app.config.from_object(config_by_name[config_name])
 
     @app.context_processor
-    def inject_current_year():
-        return {"current_year": datetime.now().year}
+    def inject_template_globals():
+        return {
+            "current_year": datetime.now().year,
+            "site_name": "Atelier",
+        }
 
     # Initialize extensions
     db.init_app(app)
