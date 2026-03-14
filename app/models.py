@@ -62,7 +62,7 @@ class StudioClass(db.Model):
 
     @property
     def time_display(self):
-        # Use %I (zero-padded) then strip leading zero for portability (%-I is not supported on Windows)
+        # %I then lstrip("0") for portability (%-I not supported on Windows)
         def fmt(t):
             s = t.strftime("%I:%M %p")
             return s.lstrip("0") if s[0] == "0" else s
